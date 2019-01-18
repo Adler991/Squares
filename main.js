@@ -179,4 +179,4 @@ function buttonRemoveDisplay() {
 	
 }
 
-tableWr.addEventListener('mouseout', buttonRemoveDisplay);
+// tableWr.addEventListener('mouseout', buttonRemoveDisplay);
