@@ -60,7 +60,7 @@ body {
 }
 
 .add-row {
-	bottom: -52px;
+	bottom: 48px;
 	left: 0;
 }
 
@@ -69,24 +69,81 @@ body {
 
 	display: none;	
 
-	background-color: #b20000;
-	background-image: url('img/minus.png');
-	background-position: 20px 24px;
-	background-repeat: no-repeat;
-	transition: all 0.2s linear 0s; 
+	transition: all 0.2s linear 0s;
 }
 
 
 
 .remove-column {
-	margin-top: -52px;	
+
+	margin-top: -52px;
+	
 }
+
 
 .remove-row {
 	margin-left: -52px;
 }
 
-.button-remove:hover {
+.buttons:hover {
 	background-color: #ca4c49;
 }
+
+.over {
+	height: 100px;
+	width: calc(100% + 100px);
+	margin-left: -50px;	
+
+	/*background-color: red;*/
+}
+
+
+.root-child {
+	display: inline-block;	
+}
+
+.but-wr {
+	margin-top: -52px;
+	display: block;
+
+	height: 52px;
+	width: 52px;
+
+	border: none;
+	background-color: transparent;
+	transition: all 0.2s linear 0s;
+}
+
+.but-wr-l {
+	margin-left: -52px;	
+}
+
+.buttons {
+	display: none;	
+
+	background-color: #b20000;
+	background-image: url('img/minus.png');
+	background-position: 20px 24px;
+	background-repeat: no-repeat;
+	transition: all 0.2s linear 0s; 
+	
+}
+
+.side {
+	width: 100px;
+
+	/*background-color: aqua;*/
+}
+
+.wr {
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;	
+	-ms-align-items: stretch;
+	align-items: stretch;
+}
+
+
 

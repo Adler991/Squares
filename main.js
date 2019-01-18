@@ -6,6 +6,10 @@ const buttonRemoveColumn = document.querySelector('.remove-column');
 const buttonRemoveRow = document.querySelector('.remove-row');
 const buttonRemove = document.querySelectorAll('.button-remove');
 const tableWr = document.querySelector('.table-wr');
+const roots = document.querySelector('#root');
+const over =  document.querySelectorAll('.over');
+const side =  document.querySelectorAll('.side');
+const buttons = document.querySelectorAll('.buttons');
 
 
 for (var i = 1; i < 5; i++) {
@@ -93,6 +97,10 @@ function display(event) {
 				e.style.display = 'block';
 			});
 
+			buttons.forEach( e => {
+				e.style.display = 'block';
+			});
+
 		}
 
 		target.removeEventListener('mouseover', display);
@@ -172,11 +180,23 @@ function removeRow() {
 
 buttonRemoveRow.addEventListener('click', removeRow);
 
-function buttonRemoveDisplay() {
+function buttonRemoveDisplay(event) {
+	
 	buttonRemove.forEach( e => {
-		e.style.display = 'none';
+		
+			e.style.display = 'none';
+				
 	});
 	
 }
 
-// tableWr.addEventListener('mouseout', buttonRemoveDisplay);
+over.forEach((e) => {
+	e.addEventListener('mouseenter', buttonRemoveDisplay);
+});
+
+side.forEach((e) => {
+	e.addEventListener('mouseenter', buttonRemoveDisplay);
+});
+
+
+console.log("onmouseenter", onmouseenter);
