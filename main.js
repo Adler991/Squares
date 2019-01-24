@@ -10,15 +10,18 @@ const roots = document.querySelector('#root');
 const over =  document.querySelectorAll('.over');
 const side =  document.querySelectorAll('.side');
 const buttons = document.querySelectorAll('.buttons');
+// 
+let cellIndex;
 
 
-for (var i = 1; i < 5; i++) {
+for (let i = 1; i < 5; i++) {
 	
-	addElement( table, 'table-row', 'tr');
-	for (var k = 1; k < 5; k++) {
+	addElement( table, 'table-row', 'tr', i);
+	for (let k = 1; k < 5; k++) {
 		let lastTableRow = table.lastElementChild;
 		
-		addElement( lastTableRow, 'table-cell', 'td');
+		addElement( lastTableRow, 'table-cell', 'td', k);
+		
 	}
 }
 
@@ -26,9 +29,10 @@ function addColumn() {
 	let tableRow = document.querySelectorAll('.table-row');
 	
 	tableRow.forEach( tableRow => {
-		let lastTableCell = tableRow.lastElementChild;
+		
 
 		addElement( tableRow, 'table-cell', 'td');
+
 
 	});
 	
@@ -47,10 +51,11 @@ function addRow() {
 	
 	addElement( table,'table-row', 'tr');
 
-	for (var i = 0; i < lastTableRowDataId; i++) {
+	for (let i = 0; i < lastTableRowDataId; i++) {
 		
-		var createdTableRow = table.lastElementChild;
+		let createdTableRow = table.lastElementChild;
 		addElement( createdTableRow, 'table-cell', 'td');
+
 
 	}
 	
@@ -58,15 +63,17 @@ function addRow() {
 
 buttonAddRow.addEventListener('click', addRow);
 
-function addElement( parentElement, classOfTag, tag) {
-	var createdElement = document.createElement(tag);
+function addElement( parentElement, classOfTag, tag, dataId) {
+	let createdElement = document.createElement(tag);
 	createdElement.setAttribute('class', classOfTag);
+	createdElement.setAttribute('data-id', dataId);
 	parentElement.appendChild(createdElement);
 	
 }
 
-tableWr.addEventListener('mouseover', display);
 tableWr.addEventListener('mouseover', position);
+tableWr.addEventListener('mouseover', display);
+// tableWr.addEventListener('mouseover', position);
 
 function display(event) {
 	let target = event.target;
@@ -114,6 +121,10 @@ function position(event) {
 	
 	if (target.tagName != 'TD') return;
 
+	cellIndex = event.target.cellIndex;
+	console.log("event.target", cellIndex);
+
+
 	let posY = event.target.offsetTop;	
 	let posX = event.target.offsetLeft;
 	
@@ -125,31 +136,18 @@ function position(event) {
 }
 
 function removeColumn() {
-	let tableRow  = document.querySelectorAll('.table-row');
+	
+	let tableCell  = document.querySelectorAll('.table-cell');
+	
+	for (let value of tableCell) {
+  	// console.log(value.children);
+  	// console.log(cellIndex);
+  	console.log("value", value.cellIndex);
+  	if (table.cellIndex === cellIndex) {
+  		// console.log("value", value.children.cellIndex);
 
-	tableRow.forEach( e => {
-
-		let children = e.children;
-		let childrens = [].slice.call(children);
-		let id;
-
-
-		childrens.forEach( e => {
-
-			if (e.offsetLeft === buttonRemoveColumn.offsetLeft-1) {
-
-				id = childrens.indexOf(e);
-
-			}
-		});
-
-		childrens.forEach( e => {
-			if (id === childrens.indexOf(e)) {
-				e.remove();
-			}
-		});
-	});
-
+  	}
+	}
 	buttonRemoveDisplay();
 }
 

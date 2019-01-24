@@ -11,22 +11,27 @@ body {
 .table-wr {
 	position: relative;
 
-	display: inline-block;
+	/*display: inline-block;*/
+	flex-shrink: 0;
 }
 
 .table {
 	margin: 0 auto;
+	/*display: table;*/
 
 	border: 1px solid  #48aae6;
+
+	flex-shrink: 0;
 }
 
-  .table-wr:hover .button-remove {
- 	display: block;
- } 
+.table-wr:hover .button-remove {
+ display: block;
+} 
  
 .table-cell {
 	width: 50px;
 	height: 50px;
+	padding: 0;
 
 	background-color: #48aae6;
 }
