@@ -1,37 +1,46 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
 	padding: 200px 0;
 }
 
-#root{
-	 
-	text-align: center;
+.root{
+	
+	display: flex;
+	justify-content: center;
 
 }
 
 .table-wr {
 	position: relative;
 
-	/*display: inline-block;*/
+	display: inline-block;
 	flex-shrink: 0;
 }
+
 
 .table {
+	table-layout: fixed;
+
 	margin: 0 auto;
-	/*display: table;*/
 
 	border: 1px solid  #48aae6;
-
-	flex-shrink: 0;
 }
 
-.table-wr:hover .button-remove {
- display: block;
-} 
- 
-.table-cell {
+.table-cell,
+.button {
 	width: 50px;
 	height: 50px;
+}
+
+ 
+.table-cell {	
+	max-width: 50px;
 	padding: 0;
+	overflow: hidden;
+	white-space: nowrap;
 
 	background-color: #48aae6;
 }
@@ -40,19 +49,18 @@ body {
 	position: absolute;
 
 	display: block;
-
-	height: 50px;
-	width: 50px;
-
 	
+	color: #ffffff;
+
 	border: none;
+	background-position: 20px 24px, 24px 20px;
+	background-repeat: no-repeat;
 }
 
 .button-add {
 	background-color: #f3a500;
 	background-image: url('img/minus.png'), url('img/plus.png');
-	background-position: 20px 24px, 24px 20px;
-	background-repeat: no-repeat;
+	
 }
 
 .button-add:hover {
@@ -65,90 +73,33 @@ body {
 }
 
 .add-row {
-	bottom: 48px;
+	bottom: -52px;
 	left: 0;
 }
 
-.button-remove {
-	
-
-	display: none;	
-
-	transition: all 0.2s linear 0s;
-}
-
-
 
 .remove-column {
-
-	margin-top: -52px;
-	
+	top: -52px;	
+	margin-bottom: 2px;	
 }
-
 
 .remove-row {
-	margin-left: -52px;
+	left: -52px; 
+} 
+
+.button-remove {
+	display: none;
+	font-size: 30px;
+	background-image: url('img/minus.png');
+	background-color: #b20000;
+	transition: all 0.2s linear 0s; 
 }
 
-.buttons:hover {
+.button-remove:hover {
 	background-color: #ca4c49;
 }
 
-.over {
-	height: 100px;
-	width: calc(100% + 100px);
-	margin-left: -50px;	
 
-	/*background-color: red;*/
-}
-
-
-.root-child {
-	display: inline-block;	
-}
-
-.but-wr {
-	margin-top: -52px;
-	display: block;
-
-	height: 52px;
-	width: 52px;
-
-	border: none;
-	background-color: transparent;
-	transition: all 0.2s linear 0s;
-}
-
-.but-wr-l {
-	margin-left: -52px;	
-}
-
-.buttons {
-	display: none;	
-
-	background-color: #b20000;
-	background-image: url('img/minus.png');
-	background-position: 20px 24px;
-	background-repeat: no-repeat;
-	transition: all 0.2s linear 0s; 
-	
-}
-
-.side {
-	width: 100px;
-
-	/*background-color: aqua;*/
-}
-
-.wr {
-	display: -webkit-flex;
-	display: -moz-flex;
-	display: -ms-flex;
-	display: -o-flex;
-	display: flex;	
-	-ms-align-items: stretch;
-	align-items: stretch;
-}
 
 
 

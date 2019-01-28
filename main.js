@@ -1,18 +1,13 @@
 
 const table = document.querySelector('.table');
-const buttonAddColumn = document.querySelector('.add-column');
-const buttonAddRow = document.querySelector('.add-row');
 const buttonRemoveColumn = document.querySelector('.remove-column');
 const buttonRemoveRow = document.querySelector('.remove-row');
 const buttonRemove = document.querySelectorAll('.button-remove');
 const tableWr = document.querySelector('.table-wr');
-const roots = document.querySelector('#root');
-const over =  document.querySelectorAll('.over');
-const side =  document.querySelectorAll('.side');
-const buttons = document.querySelectorAll('.buttons');
-// 
-let cellIndex;
 
+let cellIndex;
+let rowIndex;
+let timerId;
 
 for (let i = 1; i < 5; i++) {
 	
@@ -30,23 +25,45 @@ function addColumn() {
 	
 	tableRow.forEach( tableRow => {
 		
-
 		addElement( tableRow, 'table-cell', 'td');
-
 
 	});
 	
 }
 
-buttonAddColumn.addEventListener('click', addColumn);
+
+tableWr.addEventListener('click', addOrRemove);
+
+function addOrRemove(event) {
+	let target = event.target.className;
+	
+
+	if (target.includes('add-column')) {
+		
+		addColumn();
+
+	} else if (target.includes('add-row')) {
+		
+		addRow();
+
+	} else if (target.includes('remove-column')) {
+		
+		removeColumn();
+	} else if (target.includes('remove-row')) {
+		
+		removeRow();
+	}
+	event.target.removeEventListener('click', addOrRemove);
+}
 
 function addRow() {
 	let lastTableRow = table.children;
-	lastTableRow = [].slice.call(lastTableRow);
+	
+	lastTableRow = Array.from(lastTableRow);
 	
 	let lastTableRowDataId = lastTableRow[0].children;
 	
-	lastTableRowDataId = [].slice.call(lastTableRowDataId);
+	lastTableRowDataId = Array.from(lastTableRowDataId);
 	lastTableRowDataId = lastTableRowDataId.length;
 	
 	addElement( table,'table-row', 'tr');
@@ -56,145 +73,130 @@ function addRow() {
 		let createdTableRow = table.lastElementChild;
 		addElement( createdTableRow, 'table-cell', 'td');
 
-
-	}
-	
+	}	
 }
 
-buttonAddRow.addEventListener('click', addRow);
 
 function addElement( parentElement, classOfTag, tag, dataId) {
 	let createdElement = document.createElement(tag);
 	createdElement.setAttribute('class', classOfTag);
 	createdElement.setAttribute('data-id', dataId);
 	parentElement.appendChild(createdElement);
+	if (dataId === undefined) return;
+	createdElement.setAttribute('data-id', dataId);
 	
 }
 
-tableWr.addEventListener('mouseover', position);
-tableWr.addEventListener('mouseover', display);
-// tableWr.addEventListener('mouseover', position);
+table.addEventListener('mouseover', displayPosition);
+
+function displayPosition(event) {
+	position(event);
+	display(event);
+}
+
 
 function display(event) {
 	let target = event.target;
-	let nSibling = target.nextElementSibling;
-	let pSibling = target.previousElementSibling;
-	let nParSiblimg = target.parentElement.nextElementSibling;
-	let pParSiblimg = target.parentElement.previousElementSibling;
+	let rowQuantity = table.children.length;
+	let rowFirst = document.querySelector('.table-row');
+	let columnQuantity = rowFirst.children.length;
 
 	if (target.tagName != 'TD') {
 
 		return;
 
 	} else {
-		if (nParSiblimg === null  && pParSiblimg === null && nSibling === null && nSibling === null){
-			//do nothing 
-		}
-		else if (nParSiblimg === null  && pParSiblimg === null ) {
+		if (columnQuantity > 1 && rowQuantity > 1){
 			
-			buttonRemoveColumn.style.display = 'block';
-
-		} else if (nSibling === null && pSibling === null) {
-			
-			buttonRemoveRow.style.display = 'block';
-
-		} else {
-
 			buttonRemove.forEach( e => {
 				e.style.display = 'block';
 			});
-
-			buttons.forEach( e => {
-				e.style.display = 'block';
-			});
-
 		}
+		else if (columnQuantity > 1) {
+			
+			buttonRemoveColumn.style.display = 'block';
 
-		target.removeEventListener('mouseover', display);
-	}		
+		} else if (rowQuantity > 1) {
+			
+			buttonRemoveRow.style.display = 'block';
+
+		} 
+		
+	}	
+	target.removeEventListener('mouseover', displayPosition);	
 	
 }
 
 function position(event) {
-
+	clearTimeout(timerId);
 	let target = event.target;
 	
-	if (target.tagName != 'TD') return;
+	if (target.tagName !== 'TD') return;
 
 	cellIndex = event.target.cellIndex;
-	console.log("event.target", cellIndex);
-
+	
+	rowIndex = event.target.parentElement.rowIndex;
 
 	let posY = event.target.offsetTop;	
 	let posX = event.target.offsetLeft;
 	
-	buttonRemoveColumn.style.marginLeft = posX+1 + 'px';
-	buttonRemoveRow.style.marginTop = posY+1 + 'px';
+	buttonRemoveColumn.style.left = `${posX + 1}px`;
+	buttonRemoveRow.style.top = `${posY + 1}px`;
 
-	target.removeEventListener('mouseover', position);
+	target.removeEventListener('mouseover', displayPosition);
 	
 }
 
 function removeColumn() {
 	
-	let tableCell  = document.querySelectorAll('.table-cell');
+	let tableRow =  document.querySelectorAll('.table-row');
 	
-	for (let value of tableCell) {
-  	// console.log(value.children);
-  	// console.log(cellIndex);
-  	console.log("value", value.cellIndex);
-  	if (table.cellIndex === cellIndex) {
-  		// console.log("value", value.children.cellIndex);
-
-  	}
+	for (let value of tableRow) {
+  	let cellCollection = value.children;
+  	cellCollection.item(cellIndex).remove();
 	}
 	buttonRemoveDisplay();
 }
 
-buttonRemoveColumn.addEventListener('click', removeColumn);
-
 function removeRow() {
-	let tableRow  = document.querySelectorAll('.table-row');
-	tableRow = [].slice.call(tableRow);
-
-	let id;
-
-	tableRow.forEach( e => {
-		if (e.offsetTop === buttonRemoveRow.offsetTop-1) {
-			
-			id = tableRow.indexOf(e);
-
-		}
-	});
-
-	tableRow.forEach( e => {
-		if(id === tableRow.indexOf(e)){
-			e.remove();
-		}
-	});
+		
+	let rowCollection = table.children;
+	rowCollection.item(rowIndex).remove();	
 
 	buttonRemoveDisplay();
 }
 
-buttonRemoveRow.addEventListener('click', removeRow);
-
 function buttonRemoveDisplay(event) {
-	
 	buttonRemove.forEach( e => {
 		
-			e.style.display = 'none';
+		e.style.display = 'none';
 				
 	});
 	
 }
 
-over.forEach((e) => {
-	e.addEventListener('mouseenter', buttonRemoveDisplay);
-});
+table.addEventListener('mouseout', removeDisplay);
 
-side.forEach((e) => {
-	e.addEventListener('mouseenter', buttonRemoveDisplay);
-});
+function removeDisplay(e) {	
+	let toElement = e.toElement.tagName;
+	let target = e.target;
+	
+	if ( toElement !== 'BUTTON' && toElement !== 'TD' && toElement !== 'TABLE') {
+		
+		timerId = setTimeout(function () {
+			buttonRemove.forEach( e => {
+		
+			e.style.display = 'none';
+				
+			});
+		}, 3000);
+		
+	 }
+
+	 if (target.tagName !== 'TABLE') {
+			target.removeEventListener('mouseout', removeDisplay);
+		}
+	
+}
 
 
-console.log("onmouseenter", onmouseenter);
